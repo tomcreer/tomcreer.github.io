@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html prefix="        og: http://ogp.me/ns# article: http://ogp.me/ns/article#     " vocab="http://ogp.me/ns" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Photo booth | Bloggo</title>
+<link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../rss.xml">
+<link rel="canonical" href="https://example.com/posts/photo-booth.html">
+<!--[if lt IE 9]><script src="../assets/js/html5shiv-printshiv.min.js"></script><![endif]--><meta name="author" content="Tom Creer">
+<meta property="og:site_name" content="Bloggo">
+<meta property="og:title" content="Photo booth">
+<meta property="og:url" content="https://example.com/posts/photo-booth.html">
+<meta property="og:description" content="Photobooth writeup
+
+I wanted to make a photobooth for my wedding that was coming up. I've used these at events previously and they have always been good fun and well used by guests.
+What attracted me ">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2019-06-24T22:00:30+01:00">
+</head>
+<body>
+    <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+    <div id="container">
+         
+    <header id="header"><h1 id="brand"><a href="https://example.com/" title="Bloggo" rel="home">
+
+        <span id="blog-title">Bloggo</span>
+    </a></h1>
+
+        
+
+        
+    <nav id="menu"><ul>
+<li><a href="../archive.html">Archive</a></li>
+                <li><a href="../categories/">Tags</a></li>
+                <li><a href="../rss.xml">RSS feed</a></li>
+
+    
+
+    
+    
+    </ul></nav></header><main id="content"><article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Photo booth</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                    Tom Creer
+            </span></p>
+            <p class="dateline">
+            <a href="#" rel="bookmark">
+            <time class="published dt-published" datetime="2019-06-24T22:00:30+01:00" itemprop="datePublished" title="2019-06-24 22:00">2019-06-24 22:00</time></a>
+            </p>
+            
+        <p class="sourceline"><a href="photo-booth.rst" class="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div class="section" id="photobooth-writeup">
+<h2>Photobooth writeup</h2>
+<img alt="/images/montage.png" src="../images/montage.png"><p>I wanted to make a photobooth for my wedding that was coming up. I've used these at events previously and they have always been good fun and well used by guests.</p>
+<p>What attracted me to this was it seemed reasonably doable, although to hire one is £200-500 for 2-3 hours. The parts are largely off the shelf, and it was also a combination of hardware and software which was a new one for me - it would require creating the system, but also creating a suitable mount and enclosure for it to stand on and be presentable.</p>
+<p>The photobooth would ideally be:</p>
+<ul class="simple">
+<li>Portable, as it would have to be brought to the venue</li>
+<li>User friendly, I wanted it to be left to the users to operate (aside from infrequent paper changes etc.)</li>
+<li>Quick to use. People may not always be patient so ideally the whole process (pictures &amp; printing) would not take much longer than 2 minutes</li>
+<li>Cheap. I was interested in bootstrapping one together for as little as possible. This meant re-using old kit where possible.</li>
+<li>Reliable. Although there will always be a bit more leeway with a homemade solution over a professional service, there are still expectations and it needs to be reasonably reliable / not too buggy</li>
+<li>Good looking! Always important for people to actually use it. A jumble of wires on their own probably would not cut it.</li>
+</ul>
+<p>And this is how it turned out ...</p>
+<img alt="/images/1.6.png" src="../images/1.6.png"><div class="section" id="concept">
+<h3>Concept</h3>
+<p>The plan was to have a screen that would show users their ‘live’ picture, some kind of input button, a camera feeding into a script, and then a printer. The script would apply filters, format nicely and handle input / output.</p>
+<p>A tablet seemed a good choice for the screen – touchscreen, decent viewing angle (unlike most monitors), and front facing camera are all useful features. I had also one sitting unused which made this an easy decision! An iPad could be used for this and I think there are already good photobooth apps, but I wanted more control and also the tablet I had spare could be dedicated to something like this (largely because it was not that good as a tablet!).</p>
+<p>For the camera a flash is really required (as opposed to using the tablet's front camera), due to poor lighting and to capture definition. In terms of camera control though it either comes down to a manufacturer API/drivers, which realistically would require a professional grade camera, or the ones compatible with the excellent gPhoto2 library – which to be fair is quite extensive! Unfortunately this was not the ones I had available, so this meant using eBay/gumtree/Facebook marketplace as the next best option.</p>
+<p>Hunting one of these down was a pain as it was across so many product ranges compatible with gPhoto2, and volume is low for 10 year old digital cameras. Canon Ixus’s seemed the best bet, and I managed to grab a Canon Ixus 500 for £13.49. Although this was listed as compatible on the gPhoto2 page, until testing it is difficult to know whether it will have the full feature set to meet all the functionality required (taking photos, using flash, repeat photos and fairly quick turnaround time). Fortunately it did, with a few adaptations which I will come onto later.</p>
+<p>For the ‘back end’ I had an old, unloved &amp; unused laptop that seemed a good match. This was a Thinkpad X60 which had good Ubuntu driver support. It also had 3xUSB ports and ethernet.</p>
+<img alt="/images/2.jpg" src="../images/2.jpg"><p>The printer was another case of ‘doing your research’. The Canon Selphy range was recommended for similar uses, and had quick printing time. I managed to obtain a Canon Selphy CP810 off facebook marketplace for £20, which came with paper and ink.</p>
+</div>
+<div class="section" id="concept-to-reality-the-system">
+<h3>Concept to reality – the system</h3>
+<p>OK so now I had the key parts, the next step was to look at how to turn this into a functional photobooth system. I started with a basic Flask app that controlled the gphoto2 library, taking pictures and retrieving them as required. The printer was well supported and I would send it straightforward PDFs, so for testing I turned off this functionality.</p>
+<img alt="/images/3.jpg" src="../images/3.jpg">
+</div>
+<div class="section" id="remote-control-of-camera">
+<h3>Remote control of camera</h3>
+<p>The initial barebones seemed to work well but I quickly came across an initial problem.. while the camera worked well with the automation, it clearly  was not it’s intended use and there would be problems with lock-ups/freezing over time. The camera would also have to be turned on manually, and if there was issues turned on and off. It was also battery powered which would surely not survive that much usage before needing swapping out.</p>
+<p>I did contemplate trying to find a similar volt &amp; ampage supply and connecting this to the camera terminals, but fortunately found that suitable chargers already exist (and this is a good reason for sticking with an established brand like Canon for this kind of project), and I was able to order an adapter kit (Canon ACK500) for £5.</p>
+<p>The glitchy issue was not as easy to buy my way out of, after trying various settings, gphoto2 configs I kept hitting the same problem. One of the key requirements for me was that it could be left unattended (aside from infrequently changing printer ink etc.), so this was a big stumbling block and at one point I considered trying to buy another camera that may have been better suited.</p>
+<p>Still, not wanting to give up on this one I still had one idea – it seemed to be fine for all the first runs, it was just over time that performance would degrade. If I could control the ‘session’, and start a new one each time there should not be an issue. To sum up, if I could turn on and off from my script, the camera would probably work..</p>
+</div>
+<div class="section" id="remote-startup-of-camera">
+<h3>Remote startup of camera</h3>
+<p>The idea was to control on/off through software. Unfortunately this was not available through gPhoto2 and the camera chipset would not listen when powered off. I had seen previously that USB relays were available for cheap (aimed at the IoT market), and these could definitely fit the bill with a bit of lucky soldering.</p>
+<img alt="/images/4.jpg" src="../images/4.jpg"><p>This is what I went for, and in the end the soldering worked (as evidenced by a simple test of brushing the wires together).</p>
+<p>The cheap USB relays were well supported by libraries (search for USB relay HID), and with a simple Python library I could now turn the camera on &amp; off!</p>
+<img alt="/images/5.jpg" src="../images/5.jpg"><p>The only slight issue here was a software one around permissions - only superusers can access the HID layer for control. There is a way to set this up for non-superusers but I issues when I tried this. Instead, ashamedly, I just throw sudo at the script (it won’t be connected up to the internet and no direct user interface, so what if they hack it anyway). For a one-off project this was just about acceptable.</p>
+<p>Probably the last thing worth mentioning on the back end was the timings.. the only available information fed back to stdout is when pictures are downloaded off the camera (and not when the actual picture is being taken which is controlled by the camera logic, inc. focusing and charging the flash).</p>
+<p>Fortunately however, since adding the relay this flow was consistent, and I could accurately predict when each picture would be taken from certain returned lines. This would be a calibration exercise for each camera, although it was relatively straightforward to do (just involved a stopwatch and piece of paper).</p>
+</div>
+<div class="section" id="the-front-end">
+<h3>The front end</h3>
+<p>A basic Flash app was enough to control the gPhoto2 side and serve up to a front end. The tablet would then fire up a browser in full screen kiosk mode, which would show the front facing webcam and a ‘shoot’ button.</p>
+<p>There were some issues with webcam and SSL, modern day browsers will not give access to the camera for non-HTTPS websites these days, regardless of whether it’s local network or not. I generated certs through OpenSSL, however I struggled to get this to work reliably on the tablet (after adding to trusted certs), so to be honest I just added the ‘ignore insecure warnings’ flag to the startup options (another security shocker!).</p>
+<p>Mixing hardware calls and a Flask web app was to be honest not great, and rather than try and bridge this with async functions I found it more straightforward to monitor (and debug) by moving the hardware calls into a seperate thread that could be kept synchronous. This looks quite messy in code terms but is actually quite functional – there is only one control process operating the camera at any one time and all responses from the camera are captured and managed in serial.</p>
+<p>On the subject of issues, the original plan was to use the Laptop wifi as a hotspot that the tablet could connect to and view the server. This did not work - either the available Ubuntu drivers did not support it or the actual laptop chipset - and I was unable to easily resolve.</p>
+<p>Instead I took the decision to throw in an old wireless router – it may be excessive, but it works! There was also a side benefit of this that the laptop could connect to the router via ethernet, and it’s wireless adapter was still available to connect to an external network (my home internet) for development. This meant SSHing &amp; VPNing in was more straightforward, and came in very handy as I will explain later!</p>
+</div>
+<div class="section" id="the-big-button-or-not">
+<h3>The big button ...or not</h3>
+<img alt="/images/6.jpg" src="../images/6.jpg"><p>The original plan was to kick off the photobooth process from a big button. This would be connected up to the laptop by whatever means possible. Having used up all the available USB ports and not having a controller that would be able to intepret the momentary switch, I decided instead to try soldering it into a keyboard key, so that pressing the button would emulate a certain key (which could then be mapped to a function to start the picture process).</p>
+<img alt="/images/7.jpg" src="../images/7.jpg"><p>However, when I tried to solder onto the two contacts I instead ended up severing one of the keyboard bus lines. Suddenly a quarter of the keyboard no longer worked! Quick retreat from this option, very luckily the keys required to enter my password still work, (and as a bonus) I can still manage to execute the key scripts based on keys available. As earlier I can remote into it from other computers so it is not the end of the world losing these inputs, although not ideal.</p>
+<p>For now I’m shelving the button, in future versions I will give it another go (perhaps try wiring up to the audio in), but time pressures meant I wanted to get on with a functional system.</p>
+</div>
+<div class="section" id="functional-system">
+<h3>Functional system</h3>
+<p>OK there was quite a bit more on making the front end look nice, messing around with bootstrap, modals, API calls etc. but that got ironed out reasonably quickly.</p>
+<p>The front end calls a URL which triggers the camera capture process. A job ID is returned, and then the front end calls a polling URL frequently to find the status of the job.</p>
+<p>As the job progresses, through the polling function images are made available for display and then eventually printing is undertaken. Upon completion of the job the server signals this and the front end will refresh to start again (this goes back to the reliability mantra, in general I believe it’s best session is restarted rather than continuing the session indefinitely, even if cumbersome).</p>
+<img alt="/images/8.jpg" src="../images/8.jpg">
+</div>
+<div class="section" id="hardware">
+<h3>Hardware</h3>
+<p>OK so I had a working system, exciting!</p>
+<p>The next step is to think about how this would be packaged into something that could be used as a photobooth. It was several devices, a mess of wires and power adapters and plugs so took some consideration. I sketched up the rough size of what I would need and the concept, and then went looking for a suitable ‘frame’.</p>
+<p>Firstly I started with a cardboard box about the same size I was after and a box cutter. This worked well for getting an idea of placement and spacing inside the enclosure, before looking for the permanent enclosure.</p>
+<img alt="/images/9.jpg" src="../images/9.jpg"><p>The frame I found was a ‘shabby chic’ type box from a homeware shop, made of fibreboard timber but reasonably sturdy. I did a trial fit inside this box and everything went in, so the next step was to firm up locations and how I would keep everything in place.</p>
+<p>Upon settling this the next step was to remove the apertures –  spaces in the frame for the camera, touchscreen, button (although this didn’t get used!), and printer. I cut these out with a mixture of drilling and a jabsaw.</p>
+<p>The off cut from the touchscreen was quite large and I managed to re-use this for the tripod mount. For the tripod mount I drilled, cut, and rounded a hole to suit the tripod. This was actually flush with the screw size so it gave it extra stability. I installed blocks either side and used a bit of roofing tape on these as a bearing pad, to spread load more equally across the two sides.</p>
+<p>The enclosure would be simply supported on top of this tripod mount, and to hold it in place I drilled a bolt hole sideways on each end of the mount. The bolts threaded through here would not take load but would stop the mount moving either side (and potentially falling off the tripod), therefore keeping it stable.</p>
+<p>For this I took two approaches, the camera needed to be on a fixed mount but the majority of the rest of the devices would be useful to be held in place but easily removeable. The camera mount was relatively easy, and was a cheap screw mount which I cut down to size to fit in the enclosure. As cameras have the mounting screw hole there was no adaptation needed for this.</p>
+<p>For everything else I wanted it ‘chocked’ in place, I could cut timber spacers down to size for this but I went for a cheap Jenga set instead. These were the perfect size and could be doubled up where required, and allowed for quick and flexible placement inside the enclosure. These were super glued in place and allowed fixing of all the devices in most dimensions (leaving one to allow removal). It may look different but it worked well!</p>
+<img alt="/images/10.jpg" src="../images/10.jpg"><img alt="/images/11.jpg" src="../images/11.jpg">
+</div>
+<div class="section" id="smarting-it-up">
+<h3>Smarting it up</h3>
+<p>A bit of paint, flashing and decals then turned this:</p>
+<img alt="/images/12.jpg" src="../images/12.jpg"><p>Into the finished article:</p>
+<img alt="/images/1.png" src="../images/1.png">
+</div>
+<div class="section" id="costings">
+<h3>Costings</h3>
+<!-- This data file has been placed in the public domain. -->
+<!-- Derived from the Unicode character mappings available from
+<http://www.w3.org/2003/entities/xml/>.
+Processed by unicode2rstsubs.py, part of Docutils:
+<http://docutils.sourceforge.net>. -->
+<table border="1" class="docutils">
+<colgroup>
+<col width="58%">
+<col width="42%">
+</colgroup>
+<thead valign="bottom"><tr>
+<th class="head">Item</th>
+<th class="head">Cost</th>
+</tr></thead>
+<tbody valign="top">
+<tr>
+<td>Camera</td>
+<td>£13.49</td>
+</tr>
+<tr>
+<td>Printer</td>
+<td>£20</td>
+</tr>
+<tr>
+<td>Camera charger</td>
+<td>£7.95</td>
+</tr>
+<tr>
+<td>Relay</td>
+<td>£2.65</td>
+</tr>
+<tr>
+<td>Wooden Box</td>
+<td>£14</td>
+</tr>
+<tr>
+<td>Tripod mount</td>
+<td>£1.04</td>
+</tr>
+<tr>
+<td>Jenga</td>
+<td>£4.35</td>
+</tr>
+<tr>
+<td>Buttons</td>
+<td>£2.86</td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td><strong>£66.34</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Not including the following tools / equipment listed below, that I had. This is kind of cheating on the total cost, but then if I did not have these I would have done it a different way.</p>
+<ul class="simple">
+<li>Laptop. This was a 10+ year laptop I had sitting in a cupboard and did not mind sacrificing.</li>
+<li>Tablet. I bought this tablet for relatively cheap a few years ago, but unfortunately it did not live up to expectations and was difficult to use as either a tablet or mini laptop, and there were also some issues with power management which led to me not doing much with it.</li>
+<li>Soldering iron. I did get one for this but I'm not counting as no tool cupboard is complete without.</li>
+<li>Tripod. This was off an old lamp. The tripod was offered round but noone seemed to want it, so it got put to use in this instead. I would say the legs are not designed for this weight and would not be comfortable with much more, but it seems to be OK.</li>
+<li>Jabsaw. I did also get this for cutting out the panels from the wooden box. The gaps were quite tight so it needed either a reciprocating saw or jabsaw (£2.49).</li>
+<li>Router. This router was an unfortunate addition (first choice would have been hotspotting from the laptop removing a part and power supply), but was not a big issue. Unfortunately you end up with a new one each time you switch in this country, so plenty of these get thrown out.</li>
+<li>Extension leads</li>
+</ul>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav></nav></aside></article></main><footer id="footer"><p>Contents © 2019         <a href="mailto:tomcreer@gmail.com">Tom Creer</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    
+            <script src="../assets/js/all-nocdn.js"></script><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+    </script>
+</body>
+</html>
