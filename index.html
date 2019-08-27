@@ -91,7 +91,7 @@
 </div>
 <div class="section" id="the-front-end">
 <h3>The front end</h3>
-<p>A basic Flash app was enough to control the gPhoto2 side and serve up to a front end. The tablet would then fire up a browser in full screen kiosk mode, which would show the front facing webcam and a ‘shoot’ button.</p>
+<p>A basic Flask app was enough to control the gPhoto2 side and serve up to a front end. The tablet would then fire up a browser in full screen kiosk mode, which would show the front facing webcam and a ‘shoot’ button.</p>
 <p>There were some issues with webcam and SSL, modern day browsers will not give access to the camera for non-HTTPS websites these days, regardless of whether it’s local network or not. I generated certs through OpenSSL, however I struggled to get this to work reliably on the tablet (after adding to trusted certs), so to be honest I just added the ‘ignore insecure warnings’ flag to the startup options (another security shocker!).</p>
 <p>Mixing hardware calls and a Flask web app was to be honest not great, and rather than try and bridge this with async functions I found it more straightforward to monitor (and debug) by moving the hardware calls into a seperate thread that could be kept synchronous. This looks quite messy in code terms but is actually quite functional – there is only one control process operating the camera at any one time and all responses from the camera are captured and managed in serial.</p>
 <p>On the subject of issues, the original plan was to use the Laptop wifi as a hotspot that the tablet could connect to and view the server. This did not work - either the available Ubuntu drivers did not support it or the actual laptop chipset - and I was unable to easily resolve.</p>
